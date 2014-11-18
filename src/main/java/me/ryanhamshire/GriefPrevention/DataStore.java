@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import me.ryanhamshire.GriefPrevention.events.ClaimBeforeCreateEvent;
+
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -659,6 +661,13 @@ public abstract class DataStore
 				result.claim = otherClaim;
 				return result;
 			}
+		}
+		
+		ClaimBeforeCreateEvent claimevent = new ClaimBeforeCreateEvent(newClaim);
+		Bukkit.getServer().getPluginManager().callEvent(claimevent);
+		if (claimevent.isCancelled()) {
+			result.succeeded = false;
+			return result;
 		}
 		
 		//otherwise add this new claim to the data store to make it effective

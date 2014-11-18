@@ -21,12 +21,11 @@ package me.ryanhamshire.GriefPrevention;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
@@ -40,7 +39,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.command.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -2311,10 +2309,9 @@ public class GriefPrevention extends JavaPlugin
 	public void onDisable()
 	{ 
 		//save data for any online players
-		Player [] players = this.getServer().getOnlinePlayers();
-		for(int i = 0; i < players.length; i++)
+		Collection<? extends Player> players = this.getServer().getOnlinePlayers();
+		for (Player player : players)
 		{
-			Player player = players[i];
 			UUID playerID = player.getUniqueId();
 			PlayerData playerData = this.dataStore.getPlayerData(playerID);
 			this.dataStore.savePlayerDataSync(playerID, playerData);

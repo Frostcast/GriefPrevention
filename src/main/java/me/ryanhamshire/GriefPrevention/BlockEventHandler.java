@@ -19,25 +19,22 @@
 package me.ryanhamshire.GriefPrevention;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
@@ -48,11 +45,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.world.StructureGrowEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.Dispenser;
-import org.bukkit.util.Vector;
 
 //event handlers related to blocks
 public class BlockEventHandler implements Listener 
@@ -122,10 +116,10 @@ public class BlockEventHandler implements Listener
 			
 			if(!player.hasPermission("griefprevention.eavesdrop"))
 			{
-				Player [] players = GriefPrevention.instance.getServer().getOnlinePlayers();
-				for(int i = 0; i < players.length; i++)
+				Iterator<? extends Player> players = GriefPrevention.instance.getServer().getOnlinePlayers().iterator();
+				while (players.hasNext())
 				{
-					Player otherPlayer = players[i];
+					Player otherPlayer = players.next();
 					if(otherPlayer.hasPermission("griefprevention.eavesdrop"))
 					{
 						otherPlayer.sendMessage(ChatColor.GRAY + player.getName() + "(sign): " + signMessage);
